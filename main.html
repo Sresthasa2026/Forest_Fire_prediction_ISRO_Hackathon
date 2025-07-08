@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Forest Fire Prediction - Location Picker</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    crossorigin=""
+  />
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(to bottom right, #002244, #004080);
+      color: #fff;
+    }
+    header {
+      background: #001133;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header img.logo {
+      height: 40px;
+    }
+    header h2 {
+      flex-grow: 1;
+      text-align: center;
+      margin: 0;
+      font-weight: 600;
+    }
+    header .github-link img {
+      height: 30px;
+      filter: brightness(0) invert(1);
+    }
+    #map {
+      height: 80vh;
+      width: 100%;
+    }
+    #info {
+      padding: 15px;
+      text-align: center;
+      font-size: 1.1em;
+      background: rgba(255, 255, 255, 0.9);
+      color: #333;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      margin: 10px auto;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 8px;
+    }
+    #simulation-container {
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
+      background: #ffffffdd;
+      color: #333;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      text-align: center;
+    }
+    #simulation-container img {
+      width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9em;
+      background: #001133;
+      color: #ddd;
+      padding: 15px;
+      margin-top: 30px;
+    }
+    footer strong {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Indian_Space_Research_Organisation_Logo.svg/300px-Indian_Space_Research_Organisation_Logo.svg.png" />
+    <h2>Forest Fire Prediction - Select Location</h2>
+    <a class="github-link" href="https://github.com/Sresthasa2026" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub"/>
+    </a>
+  </header>
+
+  <div id="map"></div>
+
+  <div id="info">
+    Click on the map to select a location.
+    <br /><br />
+    <strong>Selected Coordinates:</strong>
+    <div id="coords">None</div>
+  </div>
+
+  <div id="simulation-container">
+    <h3>Fire Spread Simulation</h3>
+    <img src="https://urbanemissions.info/wp-content/uploads/anime/anime_indiasub_viirs_bymon.gif" alt="Fire Simulation" />
+    <p>This is a sample animation representing fire spread visualization. In production, real-time simulation will appear here based on model predictions.</p>
+  </div>
+
+  <footer>
+    Team <strong>SpaceXplorers</strong>, comprising Sresthasa Mohanty, Rashmi Ranjan Sethi, Biranchi Ghadei, and Syed Sadiq Hussain, proudly presents this project on fire spread prediction, developed as part of the ISRO Hackathon 2025. Our solution aims to support ISRO’s efforts in mitigating forest fire risks through advanced data analysis and predictive modeling.
+  </footer>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    crossorigin=""
+  ></script>
+  <script>
+    var map = L.map('map').setView([22.9734, 78.6569], 5);
+
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/' +
+                'World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles © Esri'
+    }).addTo(map);
+
+    var marker = null;
+
+    map.on('click', function(e) {
+      var lat = e.latlng.lat.toFixed(5);
+      var lon = e.latlng.lng.toFixed(5);
+
+      document.getElementById('coords').textContent =
+        "Latitude: " + lat + " , Longitude: " + lon;
+
+      if (marker) {
+        marker.setLatLng(e.latlng);
+      } else {
+        marker = L.marker(e.latlng).addTo(map);
+      }
+    });
+  </script>
+</body>
+</html>
